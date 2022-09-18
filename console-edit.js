@@ -1,39 +1,56 @@
 let cleanversion=""
-function SetDirty(dirt){
-    if(dirt){
-	$("#savequestion").html("SAVE QUESTION")
-    } else {
-	$("#savequestion").html("Save Question")
-    }
+function $Edit(val) {
+    return $(`#edit {val}`)
 }
-function CheckDirty(){
-    let dirty=(serialize(true).answers!=cleanversion)
-    //    $("#savequestion").prop("disabled",!dirty)
-    SetDirty(dirty)
-    return dirty
-}
-function serialize(introQ){
-    let answers=""
-    let correct=""
-    if(introQ){
-        answers=$("#edit #category").val()+"\n"+$("#Equestion").val()+"\n"
+class Dirty {
+    constructor() {
+        this.cleanversion = ""
+        this._dirty = false
     }
-    $("#edit #answers>tbody tr").each(
-        function(idx,w){
-            debug=w
-            let iscorrect=$(w).find(".Icorrect").prop("checked")
-            let code=$(w).find(".Icode").html().trim()
-            let response=$(w).find(".Iresponse").val().trim()
-            if(iscorrect){
-                correct=code
-//                json["correct"]=code //I'm going to use the code to keep track of answers
-                response="*"+response
-            }
-            answers+=code+"@"+response+"\n"
+    set dirty(val) {
+        this._dirty = val
+        if (val) {
+	    $Edit("#savequestion").html("SAVE QUESTION")
+        } else {
+            this.cleanversion = this.serialize(true).answers
+	    $Edit("#savequestion").html("Save Question")
         }
-    )
-    return {"answers":answers,"correct":correct}
+    }
+    get dirty() {
+        this.dirty = (this.serialize(true).answers!=this.cleanversion)
+        return this._dirty
+    }
+    check() {
+        let dummy = this.dirty
+    }
+    serialize(introQ) {
+        let answers=""
+        let correct=""
+        if(introQ){
+            answers=$("#edit #category").val()+"\n"+$("#Equestion").val()+"\n"
+        }
+        $("#edit #answers>tbody tr").each(
+            function(idx,w){
+                debug=w
+                let iscorrect=$(w).find(".Icorrect").prop("checked")
+                let code=$(w).find(".Icode").html().trim()
+                let response=$(w).find(".Iresponse").val().trim()
+                if(iscorrect){
+                    correct=code
+                    //                json["correct"]=code //I'm going to use the code to keep track of answers
+                    response="*"+response
+                }
+                answers+=code+"@"+response+"\n"
+            }
+        )
+        return {"answers":answers,"correct":correct}
+    }
+    
 }
+}
+let dirty = new Dirty()
+
+//----------------------------------------
 let codes=[];
 function RandomSequence(){
     let result="";
@@ -72,7 +89,7 @@ function answerpressreturn(e){
     let key=e.originalEvent.charCode
     let shift=e.originalEvent.shiftKey
     if(key==13){
-        CheckDirty()
+        let dummy = dirty.dirty; //assign to dummy variable if necessary?
         //get the location of the next answer blank
         let next;
         if(shift){
@@ -133,13 +150,11 @@ function populatequestion(data){
         }
         $(".Iup").on("mouseup",MoveUp)
         $(".Idown").on("mouseup",MoveDown)
-        $(".Iresponse").on("change",CheckDirty)
-        $(".Icode").on("change",CheckDirty)
+        $(".Iresponse").on("change",dirty.check)
+        $(".Icode").on("change",dirty.check)
         getstats(qid)
     }
-    cleanversion=serialize(true).answers
-    SetDirty(false)
-//    $("#savequestion").prop("disabled",true)
+    dirty.dirty = false
 }
 function newquestion(){
     //When Clicking the new question button
@@ -255,8 +270,9 @@ function editInit(){
     $("#dupquestion").on("click",dupquestion)
     $("#makecurrent").on("click",makecurrent)
     $("#savequestion").on("click",savequestion)
+    $("#edit #category").on("change",dirty.check)
     setupMathify("Equestion")
-    $("#Equestion").on("change",CheckDirty)
+    $("#Equestion").on("change",dirty.check)
     $("#edit #refresh").on("click",function(){
         let qid=$("#edit #id").val()
         getstats(qid)

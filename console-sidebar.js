@@ -100,7 +100,6 @@ function sidebarInit() {
         displaylist($(x.target).val());
     });
      $("#topmakecurrent").on("click",makecurrent)
-       $("#edit #category").on("change",CheckDirty)
     $("#course input").on("click", setCourse);
     $("#category").val("")
 
