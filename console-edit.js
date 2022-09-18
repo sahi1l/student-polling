@@ -1,14 +1,15 @@
 let cleanversion=""
 function $Edit(val) {
-    return $(`#edit {val}`)
+    return $(`#edit ${val}`)
 }
 class Dirty {
     constructor() {
         this.cleanversion = ""
         this._dirty = false
+	this.check = this.check.bind(this)
     }
-    set dirty(val) {
-        this._dirty = val
+    set(val) {
+	this._dirty = val
         if (val) {
 	    $Edit("#savequestion").html("SAVE QUESTION")
         } else {
@@ -16,12 +17,10 @@ class Dirty {
 	    $Edit("#savequestion").html("Save Question")
         }
     }
-    get dirty() {
-        this.dirty = (this.serialize(true).answers!=this.cleanversion)
-        return this._dirty
-    }
     check() {
-        let dummy = this.dirty
+        this._dirty = (this.serialize(true).answers!=this.cleanversion)
+	this.set(this._dirty)
+        return this._dirty
     }
     serialize(introQ) {
         let answers=""
@@ -45,28 +44,69 @@ class Dirty {
         )
         return {"answers":answers,"correct":correct}
     }
-    
-}
 }
 let dirty = new Dirty()
-
-//----------------------------------------
-let codes=[];
-function RandomSequence(){
-    let result="";
-    do {
-        result=""
-        let alphabet="abcdefghijklmnopqrstuvwxyz"
-        for (let i=0;i<3;i++){
-            result+=alphabet.charAt(Math.floor(Math.random()*alphabet.length));
-        }
-    } while (codes.includes(result))
-    codes.push(result)
-    return result
+function getEditFields() {
+    //I just want to grab everything from the form into a dictionary here
+    results = {}
+    results.id = $Edit("#id").val()
+    results.category = $Edit("#category").val()
+    results.hidden = $Edit("#hidden").prop("checked")
+    results.question = $Edit("#Equestion").val()
+    results.answers = []
+    results.correct = ""
+    $Edit("#answers>tbody tr").each(
+	function(idx,w) {
+	    let iscorrect = $(w).find(".Icorrect").prop("checked")
+	    let code = $(w).find(".Icode").html().trim()
+	    let response = $(w).find(".Iresponse").val().trim()
+	    if (iscorrect) {
+		results.correct = code
+	    }
+	    results.answers.push({code: code, response: response, correct: iscorrect})
+	}
+    )
+    return results
 }
+function setEditFields(results) {
+    $Edit("#category").val(results.category)
+    $Edit("#hidden").prop("checked",results.hidden)
+    $Edit("#Equestion").val(results.question)
+    clearAnswers()
+    codes.clear()
+    for (let answer of results.answers) {
+	let code = newanswer().attr("id")
+	console.log(code, answer.response)
+	$Edit(`#answers>tbody tr#${code} .Iresponse`).val(answer.response)
+	$Edit(`#answers>tbody tr#${code} .Icorrect`).prop("checked", answer.correct)
+    }
+}
+//----------------------------------------
+class Codes {
+    constructor() {
+	this.codes = []
+    }
+    clear() {
+	this.codes = []
+    }
+    choose() {
+	let result;
+	do {
+            result=""
+            let alphabet="abcdefghijklmnopqrstuvwxyz"
+            for (let i=0;i<3;i++){
+		result+=alphabet.charAt(Math.floor(Math.random()*alphabet.length));
+            }
+	} while (this.codes.includes(result))
+	this.codes.push(result)
+	return result
+    }
+}
+codes = new Codes()
+//----------------------------------------
 function newanswer(num){
     if(typeof(num)!=="string" || num==""){
-        num=RandomSequence()
+        num=codes.choose()
     }
     let code=$(`<tr id="${num}"></tr>`)
     code.append('<td><input type="radio" name="correct" class="Icorrect"></input></td>\n')
@@ -89,7 +129,7 @@ function answerpressreturn(e){
     let key=e.originalEvent.charCode
     let shift=e.originalEvent.shiftKey
     if(key==13){
-        let dummy = dirty.dirty; //assign to dummy variable if necessary?
+        dirty.check(); //assign to dummy variable if necessary?
         //get the location of the next answer blank
         let next;
         if(shift){
@@ -112,6 +152,10 @@ function answerpressreturn(e){
         }
     }
 }
+
+function clearAnswers() {
+    $Edit("#answers>tbody").html("")
+}
 function populatequestion(data){
     $("#list div").removeClass("selectedQ")
     if (data){
@@ -128,8 +172,8 @@ function populatequestion(data){
 	mathify("Equestion")
         //FIX: figure
         let qid=data.id
-        codes=[]
-        $("#edit #answers>tbody").html("")
+        codes.clear()
+	clearAnswers()
         for (let answer of data.answers.trim().split("\n")){
             answer=answer.split("@",2)
             if(answer.length==2){
@@ -154,7 +198,7 @@ function populatequestion(data){
         $(".Icode").on("change",dirty.check)
         getstats(qid)
     }
-    dirty.dirty = false
+    dirty.set(false)
 }
 function newquestion(){
     //When Clicking the new question button
@@ -167,10 +211,12 @@ function newquestion(){
 }
 function dupquestion(){
     //get all the data from the current question
-    
+    let data = getEditFields()
     //call newquestion
+    newquestion()
+    console.log(data)
     //fill in the answers
-    
+    setEditFields(data)
 }
 function savequestion(current){
     if(current==true){
@@ -199,7 +245,6 @@ function savequestion(current){
            dataType: "json",
            data: json,
             success: function(data){
-                console.log("addquestion success",json,data)
                 $("#edit #id").val(data["id"])
                 if (current) {
                     getcurrent()
@@ -219,9 +264,12 @@ function makecurrent(){
 }
 //FIX: Mark the edited question as dirty or clean. Hide Save question if clean.
 function MoveDown(e){
-    let w=$(e.target).parents("tr")
-    let next=$(w).next()
-    $(w).before(next)
+    console.log("MoveDown")
+    let w=$(e.target).parents("tr") //this is the row to move
+    console.log(w)
+    let next=$(w).next() //this is the next row
+    console.log(next)
+    $(w).before(next) //insert before after $w
 }
 function MoveUp(e){
     let w=$(e.target).parents("tr")
