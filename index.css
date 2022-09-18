@@ -1,0 +1,114 @@
+.question {
+    font-size:36px;
+    text-align:center;
+    font-weight:bold;
+}
+label {
+    font-size:36px;
+}
+main {
+    display:block;
+    margin:auto;
+    width:400px;
+    margin-top: 50px;
+}
+#main {
+    border:1px solid;
+    padding: 20px;
+}
+ /* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+/*    background-color: purple;*/
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+#next,#commentsubmit {
+    background-color:blue;
+    color:white;
+    margin:auto;
+    display:block;
+    padding:10px;
+    font-size:24px;
+}
+#commentsubmit {background-color: purple;}
+#commentbox {
+    background-color: #a8f;
+    padding: 10px;
+    margin: auto;
+    width: 400px;
+    display: inline-block;
+    text-align: center;
+    margin-top: 10px;
+}
+#comments {
+    margin:auto;
+    display:block;
+    width:400px;
+    height:100px;
+    margin-bottom: 5px;
+}
+#commentlabel {font-size:24px;text-align:center;}
+#next.hasntchanged {background-color: red;}
+#commentsubmit.hasntchanged {background-color: magenta;}
+#loginheader {text-align: center;}

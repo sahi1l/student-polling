@@ -1,0 +1,44 @@
+/*
+To run: 
+   rm db.db; sqlite3 db.db < setup.sqlite
+*/
+
+--Stores the questions
+CREATE TABLE questions (
+       id INTEGER PRIMARY KEY,
+       category TEXT,
+       question TEXT, --the text of the question
+       figure TEXT, --optional name of an image file in Figures
+       answers TEXT, --CSV of the answers, with optional code in front like 685@Answer.
+       correct TEXT, --the correct answer
+       changed TEXT, --time when it was changed
+       current INTEGER DEFAULT 0
+);
+
+--The answer that the student recorded
+CREATE TABLE responses (
+       student TEXT NOT NULL, --id, either an email or a random code
+       question INTEGER NOT NULL, --id from questions
+       date TEXT, --the date and time that the answer was recorded
+       response TEXT, --contains text of response, or NULL if just logging in
+       PRIMARY KEY(student,question)
+);
+
+CREATE TABLE comments (
+       student TEXT NOT NULL, --id
+       question INTEGER NOT NULL, --id from questions
+       date TEXT, --the data and time that the answer was recorded
+       comment TEXT, --comment posted
+       response TEXT, --response corresponding to comment
+       PRIMARY KEY(student,question)
+);
+
+CREATE TABLE logins (
+       code TEXT NOT NULL,
+       student TEXT,
+       date TEXT);
+       
+
+--DEBUG
+--INSERT INTO questions (category,question,answers,current) VALUES ("trial","What is your favourite color?","red\nyellow\ngreen\nblue",1);
+
