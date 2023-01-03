@@ -90,7 +90,7 @@ function getcurrent(){
         error:function(a,b,e){console.log("GetCurrent Error:",e)}
     })
 }
-function setsince() {
+function setSince() {
     since = new Date().toISOString();
     $("#since").html("SINCE")
     getcurrent()
