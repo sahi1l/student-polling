@@ -2,31 +2,39 @@ let sortcomments = false;
 let since = null;
 let students = {}
 function getstudents() {
+    let data=[];
     $.ajax({
         url:"students.txt",
         dataType:"text",
-        success: function(data) {
-            students = {}
-            for (let i of data.split("\n")) {
-                I=i.split(" | ")
-                let code=I[0]
-                let name=I[1]
-                if (code && name) {
-                    students[code] = name
-                }
-            }
-            console.debug(students)
+        async: false,
+        success: function(D) {
+            data=D.split("\n")
         }
     })
+    if (!data.length) {return}
+    let $roster = $("#roster")
+    let $ul = $("ul").appendTo($roster)
+    for (let row of data) {
+        let [code,name] = i.split(" | ")
+        let $li = $("li").appendTo($ul)
+        $li.addClass("rosterline")
+        $li.prop('id',code)
+        $li.html(name)
+    }
+    let $li = $("li").appendTo($ul)
+    $li.addClass("rosterline")
+    $li.prop('id','anonymous')
+    $li.html("")
 }
 function showroster(roster,anonymous) {
+
     if (roster) {
         if (anonymous) {
 	    roster.push(`${anonymous} unknown`)
         }
-        $("#roster").html(roster.join("<BR>"))
+//        $("#roster").html(roster.join("<BR>"))
     } else {//empty
-        $("#roster").html("")
+//        $("#roster").html("")
     }
 }
 function showcurrent(data){
@@ -168,6 +176,6 @@ function currentInit() {
 	$("#autorefresh").prop("checked",startautorefresh)
     }
     $("#comments").on("click",()=>{sortcomments=!sortcomments; getcurrent()})
-
+    getstudents()
 
 }
