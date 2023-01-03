@@ -106,7 +106,10 @@ tr.correct .barin {background-color:blue;}
 .rosterline {
     padding:0px;
     margin:0px;
+    color:red;
+    
 }
-.rosterline.seen {
+.rosterline.seen,.rosterline#anonymous {
     font-weight:bold;
+    color:blue;
 }

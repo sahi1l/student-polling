@@ -1,0 +1,17 @@
+* Display list of students who have seen current question
+** DONE Find a location for this list: #roster
+** DONE Modify getcurrent to include this information
+   select distinct logins.student,code from responses LEFT JOIN logins on responses.student=logins.code where question=60 AND code is NOT NULL;
+*** Problem: this method doesn't capture the non-loginers
+*** Then again, I can use other stats to calculate the NUMBER of anonymous logins
+** DONE Modify JS to include this information
+** DONE Make sure to clear this whenever the current question changes
+** DONE Match up codes with names so I can keep track more easily
+** DONE Show a list of all students, and highlight as appropriate
+** Encrypt codes so I'm not exposing grades
+*** Preload a hashed table to go from ID to name
+*** hashlib.md5((code+salt).encode()).hexdigest() works in Python
+*** Make this a feature of auth.js: give getLogin a salt and it returns the hashed version
+
+
+
