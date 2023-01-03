@@ -30,14 +30,14 @@ function getstudents() {
     $li.html("")
 }
 function showroster(roster,anonymous) {
-
-    if (roster) {
-        if (anonymous) {
-	    roster.push(`${anonymous} unknown`)
-        }
-//        $("#roster").html(roster.join("<BR>"))
-    } else {//empty
-//        $("#roster").html("")
+    $(".rosterline").removeClass("seen")
+    for (var row of roster){
+        $(`#${row}`).addClass("seen")
+    }
+    if(anonymous){
+        $(".rosterline#anonymous").html(`${anonymous} unknown`)
+    } else {
+        $(".rosterline#anonymous").html("")
     }
 }
 function showcurrent(data){
