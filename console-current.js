@@ -15,8 +15,10 @@ function getstudents() {
     if (!(data.length)) {console.log(`no data? ${data.length}`);return}
     let $roster = $("#roster")
     let $ul = $("ul").appendTo($roster)
+    console.debug($roster,$ul)
     for (let row of data) {
         let [code,name] = row.split(" | ")
+        console.debug(name)
         let $li = $("li").appendTo($ul)
         $li.addClass("rosterline")
         $li.prop('id',code)
