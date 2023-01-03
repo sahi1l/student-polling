@@ -2,6 +2,29 @@ let cleanversion=""
 function $Edit(val) {
     return $(`#edit ${val}`)
 }
+function serialize(introQ) {
+    let answers=""
+    let correct=""
+    if(introQ){
+        answers=$("#edit #category").val()+"\n"+$("#Equestion").val()+"\n"
+    }
+    $("#edit #answers>tbody tr").each(
+        function(idx,w){
+            debug=w
+            let iscorrect=$(w).find(".Icorrect").prop("checked")
+            let code=$(w).find(".Icode").html().trim()
+            let response=$(w).find(".Iresponse").val().trim()
+            if(iscorrect){
+                correct=code
+                //                json["correct"]=code //I'm going to use the code to keep track of answers
+                response="*"+response
+            }
+            answers+=code+"@"+response+"\n"
+        }
+    )
+    return {"answers":answers,"correct":correct}
+}
+
 class Dirty {
     constructor() {
         this.cleanversion = ""
@@ -21,28 +44,6 @@ class Dirty {
         this._dirty = (this.serialize(true).answers!=this.cleanversion)
 	this.set(this._dirty)
         return this._dirty
-    }
-    serialize(introQ) {
-        let answers=""
-        let correct=""
-        if(introQ){
-            answers=$("#edit #category").val()+"\n"+$("#Equestion").val()+"\n"
-        }
-        $("#edit #answers>tbody tr").each(
-            function(idx,w){
-                debug=w
-                let iscorrect=$(w).find(".Icorrect").prop("checked")
-                let code=$(w).find(".Icode").html().trim()
-                let response=$(w).find(".Iresponse").val().trim()
-                if(iscorrect){
-                    correct=code
-                    //                json["correct"]=code //I'm going to use the code to keep track of answers
-                    response="*"+response
-                }
-                answers+=code+"@"+response+"\n"
-            }
-        )
-        return {"answers":answers,"correct":correct}
     }
 }
 let dirty = new Dirty()
