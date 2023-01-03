@@ -3,7 +3,7 @@ let since = null;
 function showcurrent(data){
     //called by getcurrent
     let $table=$("#responses table")
-    if (data==undefined || !("question" in data)){ //no current problem
+    if (data==undefined || data==null || !("question" in data)){ //no current problem
         $("#Cquestion").html("--")
         $table.html("")
         $("#this .barin").width(0)
