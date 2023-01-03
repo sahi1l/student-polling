@@ -97,3 +97,12 @@ tr.correct .barin {background-color:blue;}
     padding:5px;
     height: 100%;
 }
+
+#roster>ul {
+    font-size:60%;
+    list-style-type:none;
+}
+.rosterline {
+    padding:0px;
+    margin:0px;
+}
