@@ -1,23 +1,45 @@
 let sortcomments = false;
 let since = null;
+let students = {}
+function getstudents() {
+    $.ajax({
+        url:"students.txt",
+        dataType:"text",
+        success: function(data) {
+            students = {}
+            for (let i of data.split("\n")) {
+                I=i.split(" | ")
+                let code=I[0]
+                let name=I[1]
+                if (code && name) {
+                    students[code] = name
+                }
+            }
+            console.debug(students)
+        }
+    })
+}
 function showroster(roster,anonymous) {
-    console.debug(roster.length,`anonymous=${anonymous}`)
-    if (anonymous) {
-	roster.push(`${anonymous} unknown`)
+    if (roster) {
+        if (anonymous) {
+	    roster.push(`${anonymous} unknown`)
+        }
+        $("#roster").html(roster.join("<BR>"))
+    } else {//empty
+        $("#roster").html("")
     }
-    console.debug(roster.length)
-    $("#roster").html(roster.join("<BR>"))
 }
 function showcurrent(data){
     //called by getcurrent
-    showroster(data.roster,data.anonymous)
     let $table=$("#responses table")
     if (data==undefined || data==null || !("question" in data)){ //no current problem
         $("#Cquestion").html("--")
         $table.html("")
         $("#this .barin").width(0)
         $("#today .barin").width(0)
+        showroster(null)
     } else {
+        showroster(data.roster,data.anonymous)
         let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         $table.html("")
         let question=data["question"]
