@@ -24,7 +24,7 @@ function getstudents() {
         $li.prop('id',code)
         $li.html(name)
     }
-    let $li = $("li").appendTo($ul)
+    let $li = $("<li>").appendTo($ul)
     $li.addClass("rosterline")
     $li.prop('id','anonymous')
     $li.html("")
