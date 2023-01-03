@@ -14,7 +14,7 @@ function getstudents() {
     console.debug("Data received: ",data)
     if (!(data.length)) {console.log(`no data? ${data.length}`);return}
     let $roster = $("#roster")
-    let $ul = $("ul").appendTo($roster)
+    let $ul = $("<ul></ul>").appendTo($roster)
     console.debug($roster,$ul)
     for (let row of data) {
         let [code,name] = row.split(" | ")
