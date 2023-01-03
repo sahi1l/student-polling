@@ -107,21 +107,22 @@ function nocurrent(){
            })
 }
 let autoQ=undefined
-function clearResponses(){
-    if (confirm("Clear all the responses?")) {
-	$.ajax({
-	    url:"clearcurrent.cgi",
-            data: {course: course},
-	    success:function(){
-		getcurrent()
-	    }
-	})
-    }
-}
+//function clearResponses(){
+//    if (confirm("Clear all the responses?")) {
+//	$.ajax({
+//	    url:"clearcurrent.cgi",
+//            data: {course: course},
+//	    success:function(){
+//		getcurrent()
+//	    }
+//	})
+//    }
+//}
 
 function currentInit() {
     $("#nocurrent").on("click",nocurrent)
-    $("#clear").on("click",clearResponses)
+    $("#since").on("click",setSince)
+//    $("#clear").on("click",clearResponses)
     $("#current #refresh").on("click",getcurrent)
         $("#autorefresh").on("change",function(e){
         if($(e.target).prop("checked")){
