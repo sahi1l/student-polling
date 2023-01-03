@@ -12,6 +12,7 @@ function getstudents() {
         }
     })
     if (!data.length) {return}
+    console.debug("Data received: ",data)
     let $roster = $("#roster")
     let $ul = $("ul").appendTo($roster)
     for (let row of data) {
