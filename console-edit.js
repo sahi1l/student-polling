@@ -36,12 +36,12 @@ class Dirty {
         if (val) {
 	    $Edit("#savequestion").html("SAVE QUESTION")
         } else {
-            this.cleanversion = this.serialize(true).answers
+            this.cleanversion = serialize(true).answers
 	    $Edit("#savequestion").html("Save Question")
         }
     }
     check() {
-        this._dirty = (this.serialize(true).answers!=this.cleanversion)
+        this._dirty = (serialize(true).answers!=this.cleanversion)
 	this.set(this._dirty)
         return this._dirty
     }
