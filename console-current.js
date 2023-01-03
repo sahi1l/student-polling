@@ -1,8 +1,12 @@
 let sortcomments = false;
 let since = null;
 function showroster(roster,anonymous) {
-    roster += [`${anonymous} unknown`]
-    $("#roster").html(roster.join("\n"))
+    console.debug(roster.length,`anonymous=${anonymous}`)
+    if (anonymous) {
+	roster.push(`${anonymous} unknown`)
+    }
+    console.debug(roster.length)
+    $("#roster").html(roster.join("<BR>"))
 }
 function showcurrent(data){
     //called by getcurrent

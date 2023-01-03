@@ -12,6 +12,9 @@ def extract(val,default):
         return default
 
 def getCurrent(qid, since, course="db"):
+    with open("LOG","a") as F:
+        F.write(f"------------\n")
+
     C=sqlite3.connect(f"DB/{course}.db")
     if not qid:
         qid=extract(
@@ -52,6 +55,10 @@ def getCurrent(qid, since, course="db"):
     AND code IS NOT NULL
     """, (qid,since)
                        ).fetchall()
+    if roster:
+        roster = [x[0] for x in roster if x[0]]
+    with open("LOG","a") as F:
+        F.write(f"{roster}\n")
 
     totalseen = len(responselist) #The number of students who have seen the question
     anonymous = totalseen - len(roster)
@@ -94,7 +101,7 @@ def getCurrent(qid, since, course="db"):
             "responded":totalresponse, #number of students who responded
             "responses":responses, #dictionary: histogram of responses
             "comments": comments, #list of comments
-            "roster": sorted(roster), #list of students who saw this
+            "roster": roster, #list of students who saw this
             "anonymous": anonymous, #number of students who haven't logged in, but saw this
             }
 
