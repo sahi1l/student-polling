@@ -90,7 +90,7 @@ def getCurrent(qid, since, course="db"):
             "answers":answers, #a dictionary of code->answer text
             "correct":correct, #the code of the correct answer
             "seen":totalseen, #number of students who saw this question
-            "today":totaltoday, #number of students who saw any question
+            "today":totalsince, #number of students who saw any question
             "responded":totalresponse, #number of students who responded
             "responses":responses, #dictionary: histogram of responses
             "comments": comments, #list of comments
