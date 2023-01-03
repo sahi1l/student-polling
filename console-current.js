@@ -11,8 +11,8 @@ function getstudents() {
             data=D.split("\n")
         }
     })
-    if (!data.length) {return}
     console.debug("Data received: ",data)
+    if (!data.length) {return}
     let $roster = $("#roster")
     let $ul = $("ul").appendTo($roster)
     for (let row of data) {
