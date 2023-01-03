@@ -15,7 +15,7 @@ function getstudents() {
     let $roster = $("#roster")
     let $ul = $("ul").appendTo($roster)
     for (let row of data) {
-        let [code,name] = i.split(" | ")
+        let [code,name] = row.split(" | ")
         let $li = $("li").appendTo($ul)
         $li.addClass("rosterline")
         $li.prop('id',code)
