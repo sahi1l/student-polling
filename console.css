@@ -88,3 +88,12 @@ tr.correct .barin {background-color:blue;}
 .mathify {
     color: blue;
 }
+
+#roster {
+    position:absolute;
+    border:1px solid;
+    right:5px;
+    width:200px;
+    padding:5px;
+    height: 100%;
+}

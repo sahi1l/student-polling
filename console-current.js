@@ -1,7 +1,12 @@
 let sortcomments = false;
 let since = null;
+function showroster(roster,anonymous) {
+    roster += [`${anonymous} unknown`]
+    $("#roster").html(roster.join("\n"))
+}
 function showcurrent(data){
     //called by getcurrent
+    showroster(data.roster,data.anonymous)
     let $table=$("#responses table")
     if (data==undefined || data==null || !("question" in data)){ //no current problem
         $("#Cquestion").html("--")
