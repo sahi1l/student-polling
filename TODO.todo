@@ -1,0 +1,9 @@
+* JAVASCRIPT
+** DONE Change label of button
+** DONE When button pushed, record current date as "since"
+** DONE Pass since to CGI instead of "showall" or "onlytoday"
+* CGI
+** DONE Accept "since" from javascript
+** DONE Remove showall and onlytoday? Maybe? I forget
+** DONE Change SELECT to work appropriately
+

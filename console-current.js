@@ -1,8 +1,7 @@
 let sortcomments = false;
+let since = null;
 function showcurrent(data){
     //called by getcurrent
-    console.log("ShowAll:",data.showall)
-    console.log("OnlyToday:",data.onlytoday)
     let $table=$("#responses table")
     if (data==undefined || !("question" in data)){ //no current problem
         $("#Cquestion").html("--")
@@ -81,15 +80,22 @@ function setauto(onQ) {
 function getcurrent(){
     //use AJAX to get stats for the current question
     let showall=$("#showall").prop("checked")
-    console.log("Sending showall=",showall)
+    data = {course: course}
+    if (!showall && since) {data.since = since}
     $.ajax({
         url:"getcurrent.cgi",
-	data:{"showall":showall, "course": course},
+	data: data,
         dataType:"json",
         success:showcurrent,
         error:function(a,b,e){console.log("GetCurrent Error:",e)}
     })
 }
+function setsince() {
+    since = new Date().toISOString();
+    $("#since").html("SINCE")
+    getcurrent()
+}
+
 function nocurrent(){
     $.ajax({url:"nocurrent.cgi",
             dataType:"json",
