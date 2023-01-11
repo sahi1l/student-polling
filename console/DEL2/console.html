@@ -1,0 +1,108 @@
+<meta charset="UTF-8">
+<title>Poll Console</title>
+<link rel="icon" href="data:;base64,=">
+<script src="/lib/jquery.js"></script>
+<script src="/lib/js.cookie.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="console-sidebar.js"></script>
+<script src="console-edit.js"></script>
+<script src="console-current.js"></script>
+<script src="console.js?5"></script>
+<link rel="stylesheet" href="console.css">
+
+<h1>Polling Console</h1>
+<div id="roster"></div>
+<div id="current">
+  <h2>Current Question</h2>
+  <button id="nocurrent">No Current Question</button>
+<!--  <div id="id">0</div>-->
+  <div id="Cquestion"></div>
+  <div id="responses">
+    <table>
+    </table>
+    
+  </div>
+  <label>
+    <input id="autorefresh" type="checkbox">
+    Auto
+  </label>
+  <button id="refresh">Refresh</button>
+  <label>
+    <input id="showall" type="checkbox">
+    Show All
+  </label>
+  <button id="since">Since</button>
+  <table>
+    <tr id="this">
+      <td>from students who saw this question:
+      <td><div class="barout"><div class="barin"></div></div>
+      <td class="percent"></td>
+    </tr>
+    <tr id="today">
+    <td>from students here today:
+    <td><div class="barout"><div class="barin"></div></div>
+    <td class="percent"></td>
+    </tr>
+  </table>
+  <div id="debug"
+    style="width:100%;height:20px;background-color:#ffa"></div>
+    <div id="comments">
+      Hi there
+    </div>
+</div>
+<div id="edit">
+  <h2>Editing Question...</h2>
+  <label>
+    ID:
+    <input id="id" disabled>
+    <button id="newquestion">New Question</button>
+    <button id="dupquestion">Duplicate Question</button>
+    </label>
+  <label>
+    Category: 
+    <input id="category">
+<!--  </label>
+  <label>-->
+    <input type="checkbox" id="hidden">
+    Hidden
+    </label>
+  <label>
+    Question:
+    <input id="Equestion"/>
+</label>
+    <div class="mathify" style="margin-left:80px" id="Equestionmath"></div>
+  <label>
+  Responses:<br>
+<table id="answers">
+<tbody>
+</tbody>
+<tfoot>
+  <tr><td></td><td><button id="newanswer">+</button></td></tr>
+</tfoot>
+</table>
+
+<!--    <textarea id="answers"></textarea>-->
+<div>
+  <button id="makecurrent">Make current</button>
+<!--  <button id="resetstats">Reset stats</button>-->
+  <button id="savequestion">Save question</button>
+  <button id="refresh">Refresh</button>
+  </div>
+</div>
+<div id="sidebar">
+<div id="course">
+  <input type="radio" id="101" name="course" value="102">
+  <label for="101">102</label>
+<!--  <input type="radio" id="370" name="course" value="370">
+  <label for="370">370</label>-->
+  
+  </div>
+  <select id="menu">
+    <option>ALL</option>
+  </select>
+  <button id="topmakecurrent">C</button>
+  <div id="list">
+  </div>
+</div>
+
+<!--<button id="mobile" style="width:400px;font-size:48px;">Mobile</button>-->
