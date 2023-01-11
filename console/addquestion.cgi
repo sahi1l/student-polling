@@ -3,9 +3,9 @@ import sqlite3
 import json
 from readfields import default,readfields
 import sys
-
+from console import getDB
 def AddQuestion(P):
-    C=sqlite3.connect(f"DB/{P.course}.db")
+    C=getDB(P.course)
     if P.id == "NEW":
         P.id=C.execute("SELECT MAX(id) from questions").fetchone()[0]
         if type(P.id)==type(None):

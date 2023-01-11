@@ -3,8 +3,9 @@ import sqlite3
 import cgi
 import json
 from readfields import default,readfields
-def GetQuestions(category, course="db"):
-    C=sqlite3.connect(f"DB/{course}.db")
+from console import getDB
+def GetQuestions(category, course):
+    C=getDB(course)
     if category:
         data=C.execute("SELECT id,category,question FROM questions WHERE category=? ORDER BY changed",(category,)).fetchall()
     else:

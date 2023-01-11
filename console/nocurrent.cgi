@@ -3,12 +3,13 @@ import sqlite3
 import cgi
 import json
 from readfields import default,readfields
-def noCurrent(course="db"):
-    C=sqlite3.connect(f"DB/{course}.db")
+from console import getDB
+def noCurrent(): 
+    C=getDB(course)
     C.execute("UPDATE questions SET current=0")
     C.commit()
 
 if __name__ == "__main__":
     f = readfields(["course"])
-    noCurrent(default(f.course, "db"))
+    noCurrent(f.course)
     print("Content-type:application/json\n\n",json.dumps({}))

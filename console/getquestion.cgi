@@ -2,9 +2,9 @@
 import sqlite3
 import json
 from readfields import default,readfields
-
-def GetQuestion(id, course="db"):
-    C=sqlite3.connect(f"DB/{course}.db")
+from console import getDB
+def GetQuestion(id, course):
+    C=getDB(course)
     if id: #getting a specific question
         data=C.execute("SELECT question,category,figure,answers,id FROM questions WHERE id=?",(id,)).fetchone()
     else: #getting the current question

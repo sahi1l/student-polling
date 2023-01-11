@@ -4,6 +4,7 @@ import cgi
 import json
 import sys
 from readfields import default,readfields
+from console import getDB
 form=cgi.FieldStorage()
 def extract(val,default):
     if val:
@@ -14,8 +15,7 @@ def extract(val,default):
 def getCurrent(qid, since, course="db"):
     with open("LOG","a") as F:
         F.write(f"------------\n")
-
-    C=sqlite3.connect(f"DB/{course}.db")
+    C=getDB(course)
     if not qid:
         qid=extract(
             C.execute("SELECT id FROM questions WHERE current=1").fetchone(),
