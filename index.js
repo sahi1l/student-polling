@@ -102,8 +102,8 @@ function init() {
     //Generate student ID
     course = (document.location.pathname.split("/").reverse()[0].split(".")[0])
     //if called from 101.html then use 101
-    if (getLogin()) {
-	student = getLogin()
+    if (AUTH.code) {
+	student = AUTH.code
     } else if (Cookies.get("pollid")){
         student=Cookies.get("pollid")
     } else {
@@ -120,14 +120,12 @@ function init() {
     $("#commentsubmit").on("click", savecomment)
     loadquestion();
     oncein = ()=>  {
-	Login( getLogin() )
-//	student = getLogin()
-//	loadquestion(false) //For now, this will register that they are present
+	Login( AUTH.code )
     }
-    onceout = ()=> {
+/*    onceout = ()=> {
 	Login(null)
-//	loadquestion(false)
-    }
-    setTimeout(cookielogin, 500)
+    }*/
+    AUTHinit()
+//    setTimeout(cookielogin, 500)
 }
 $(init)

@@ -7,7 +7,9 @@ function getstudents() {
         url:"students.txt",
         dataType:"text",
         async: false,
+	cache:false,
         success: function(D) {
+	    console.log("D=",D)
             data=D.split("\n")
         }
     })
@@ -16,9 +18,10 @@ function getstudents() {
     let $roster = $("#roster")
     let $ul = $("<ul></ul>").appendTo($roster)
     console.debug($roster,$ul)
+    console.debug("data=",data)
     for (let row of data) {
         let [code,name] = row.split(" | ")
-        console.debug(name)
+        console.debug(code,name)
         let $li = $("<li>").appendTo($ul)
         $li.addClass("rosterline")
         $li.prop('id',code)
