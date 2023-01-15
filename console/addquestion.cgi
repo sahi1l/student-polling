@@ -30,7 +30,7 @@ def AddQuestion(P):
 
 if __name__ == "__main__":
     f = readfields(["id", "category", "question", "answers", "figure", "correct", "current", "course"])
-    sys.stderr.write(json.dumps(f))
+#    sys.stderr.write(json.dumps(f))
     result = AddQuestion(f)
     print("Content-type:application/json\n")
     print(json.dumps(result))
