@@ -112,3 +112,12 @@ main {
 #next.hasntchanged {background-color: red;}
 #commentsubmit.hasntchanged {background-color: magenta;}
 #loginheader {text-align: center;}
+#error {
+    font-size:9px;
+    color:white;
+    background-color:#a00;
+    position:fixed;
+    bottom:0%;
+    right:0%;
+    margin:5px;
+}

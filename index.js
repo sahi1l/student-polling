@@ -1,14 +1,19 @@
 let course="db"
 let qid=""; //question id
 let student;
+function error(msg){
+    $("#error").html(msg);
+}
 function loadquestion(flashButton=true){
     $.ajax({
         url: "getnewquestion.cgi",
         data: {student:student, qid:qid, course: course},
         success: (data)=>{showquestion(data,flashButton)},
-        error: function(j,t,x){console.log("error:",t,x);}
+        error: function(e, textStatus, errorThrown){
+	    console.error(errorThrown);
+	    error("GNQ:"+errorThrown);
+	}
     });
-        
 }
 function setupAnswer(answer,mathjax){
     let code=answer;
@@ -62,7 +67,10 @@ function saveresponse(){
                response: value,
                course: course},
         success: function(x) {console.debug(value);},
-        error: function(e, textStatus, errorThrown){console.error(errorThrown);}
+        error: function(e, textStatus, errorThrown){
+	    console.error(errorThrown);
+	    error("SR:"+errorThrown);
+	}
     });
     
 }
@@ -84,7 +92,10 @@ function savecomment() {
             setTimeout(()=> $("#commentsubmit").html(label).removeClass("hasntchanged"),1000)
             console.debug(comment);
         },
-        error: function(e){console.error(e);}
+	error: function(e, textStatus, errorThrown){
+	    console.error(errorThrown);
+	    error("SC:"+errorThrown);
+	}
     });
 }
 let seed;
@@ -94,7 +105,10 @@ function Login(email) {
 	url: "login.cgi",
 	data: {course: course, code: student, email: email},
 	success: (response) => {console.debug("Login success",response)},
-	error: (j,t,x) => {console.error("Login error",t,x)},
+	error: function(e, textStatus, errorThrown){
+	    console.error(errorThrown);
+	    error("Login:"+errorThrown);
+	}
     })
 }
 function init() {
@@ -110,22 +124,12 @@ function init() {
 	student = seed
         Cookies.set("pollid",student)
     }
-    /*
-      course = document.location.search.substr(1)
-    if (course == "") {
-        course = document.location.pathname.split("/").pop().replace(".html","")
-	}
-    */
     $("#next").on("click",loadquestion)
     $("#commentsubmit").on("click", savecomment)
     loadquestion();
     oncein = ()=>  {
 	Login( AUTH.code )
     }
-/*    onceout = ()=> {
-	Login(null)
-    }*/
     AUTHinit()
-//    setTimeout(cookielogin, 500)
 }
 $(init)
