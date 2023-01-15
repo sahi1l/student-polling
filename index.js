@@ -2,6 +2,7 @@ let course="db"
 let qid=""; //question id
 let student;
 function error(msg){
+    console.error(msg);
     $("#error").html(msg);
 }
 function loadquestion(flashButton=true){
@@ -10,7 +11,6 @@ function loadquestion(flashButton=true){
         data: {student:student, qid:qid, course: course},
         success: (data)=>{showquestion(data,flashButton)},
         error: function(e, textStatus, errorThrown){
-	    console.error(errorThrown);
 	    error("GNQ:"+errorThrown);
 	}
     });
@@ -68,7 +68,6 @@ function saveresponse(){
                course: course},
         success: function(x) {console.debug(value);},
         error: function(e, textStatus, errorThrown){
-	    console.error(errorThrown);
 	    error("SR:"+errorThrown);
 	}
     });
@@ -93,7 +92,6 @@ function savecomment() {
             console.debug(comment);
         },
 	error: function(e, textStatus, errorThrown){
-	    console.error(errorThrown);
 	    error("SC:"+errorThrown);
 	}
     });
@@ -106,7 +104,6 @@ function Login(email) {
 	data: {course: course, code: student, email: email},
 	success: (response) => {console.debug("Login success",response)},
 	error: function(e, textStatus, errorThrown){
-	    console.error(errorThrown);
 	    error("Login:"+errorThrown);
 	}
     })
