@@ -226,6 +226,12 @@ function savequestion(current){
     } else {
         current=0
     }
+    console.log("[",$("#Equestion").val(),"]")
+    if( $("#Equestion").val()=="") {
+	$("#Equestion").focus()
+	$("#Equestion").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100)
+	return;
+    }
     //setup JSON
     let json={
         "id":$("#edit #id").val(),

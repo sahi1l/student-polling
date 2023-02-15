@@ -182,6 +182,9 @@ function currentInit() {
 	$("#autorefresh").prop("checked",startautorefresh)
     }
     $("#comments").on("click",()=>{sortcomments=!sortcomments; getcurrent()})
+    if(window.confirm("Since now?")){
+	setSince();
+    }
     getstudents()
 
 }
